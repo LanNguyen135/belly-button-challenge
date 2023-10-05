@@ -1,6 +1,8 @@
 const url = "https://2u-data-curriculum-team.s3.amazonaws.com/dataviz-classroom/v1.1/14-Interactive-Web-Visualizations/02-Homework/samples.json";
 
 function init() {
+// This function reads in the data from the url then creates the default charts on the dashboard using the information of the first test subject. 
+// It also add test subject ID number to the drop down menu. The dropdown menu code is inspired by https://github.com/dmcneill0711/Digging-Into-The-Belly-Button-Biome/tree/main
     d3.json(url).then(function(data) {        
         // Add test subject id to drop down menu
         let name = data.names;
@@ -31,6 +33,7 @@ function init() {
 };
 
 function optionChanged(value) {
+// When user choose a different test subject, this function find that subject's information and update the existing table and charts.
     d3.json(url).then(function(data){
 
         let index = data.names.indexOf(String(value));
@@ -54,6 +57,7 @@ function optionChanged(value) {
   }
 
 function barChart(value, label, text) {
+// This function takes in test subejct information and turn them into a bar chart on the dashboard.
     // Prepare the data for the bar plot
     let x = value.slice(0,10).reverse();
     let y = label.slice(0,10).map(id => `OTU ${id}`).reverse();
@@ -79,6 +83,7 @@ function barChart(value, label, text) {
 }
 
 function bubbleChart(otuIDs, sampleValues, otuLables) {
+// This function takes in test subject information and turns them into a buble chart on the dashboard.
     let bubblePlot = [{
         type: "bubble",
         x: otuIDs,
@@ -101,6 +106,8 @@ function bubbleChart(otuIDs, sampleValues, otuLables) {
 };
 
 function metadataTable(metadata) {
+// This function takes in test subject information and puts them into the Demographic Info table.
+// I received help from instructor Hunter Hollis
     let rowValue = [];
     for (var key in metadata) {
         let value = metadata[key]
@@ -112,6 +119,9 @@ function metadataTable(metadata) {
 };
 
 function gaugeChart(number) {
+// This function takes in test subject information and turns them into the gauge chart.
+// Codes are taken from https://plotly.com/javascript/gauge-charts/
+// Color options are taken from https://loading.io/color/feature/YlGnBu-8/
     let washData = [{
             type: "indicator",            
             mode: "gauge+number",           
